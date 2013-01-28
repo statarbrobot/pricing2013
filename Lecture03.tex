@@ -1,0 +1,215 @@
+\documentclass[11pt]{article}
+\textheight 22cm \textwidth 16.5cm \oddsidemargin 0cm \topmargin -.5cm
+\usepackage[utf8x]{inputenc}
+\usepackage{pricing_notes}
+
+\date{Lecture 3 (22 Jan. 2013)}
+
+\begin{document}
+
+{\small \maketitle}
+
+\section{Recapitulation}
+For a given stock $S$, the first derivatives that we can build are the forward contracts with expiry $T^\prime$, whose price we denote $f^{T^\prime}(t)$, and the future contracts with expiry $T^\prime$, whose price we denote $F^{T^\prime}(t)$. Due to the absence of arbitrage, we can assert the relation of their price at maturity $f^{T^\prime}(T^\prime) = S(T^\prime) = F^{T^\prime}(T^\prime)$. The primary differences are: \\
+
+\begin{tabular}{l | l}
+Forwards & Futures \\
+\hline
+over-the-counter & exchange-traded \\
+sparse quotes & continuously observed prices \\
+customised & standardized \\
+no deposit & margin deposits \\
+no interim cash flows & daily cash flows (margin calls) of $f^{T^\prime}(t + 1) - F^{T^\prime}(t)$ \\
+\end{tabular} \\
+
+We would like to understand the relation of $f^{T^\prime}(t)$ and $F^{T^\prime}(t)$ before maturity, i.e. at $t < T^\prime$. We recall:
+
+\begin{theorem}[Cox Ingersoll Ross (1981)] Assuming no credit risk in the economy, and
+\begin{enumerate}
+\item constant interest rates, then $F^{T^\prime}(t) = f^{T^\prime}(t)$
+\item stochastic interest rates, then $F^{T^\prime}(t) = f^{T^\prime}(t)$ as long as there is no correlation between $S$ and the interest rate
+\end{enumerate}
+\end{theorem}
+
+\section{Effect of Interest Rates}
+
+Let us consider the assets and situations we have seen to date:
+\begin{enumerate}
+\item In the Black-Scholes (1976) setting, interest rates are constant and $F^{T^\prime}(t) = f^{T^\prime}(t)$
+\item If interest rates are stochastic, and $T^\prime >> t$, i.e. we are sufficiently far from maturity for interest rates to matter:
+\begin{enumerate}
+\item If the underlying $S$ is a commodity such as wheat or corn, then we can safely say that $\Corr(S, r) = 0$, and then $F^{T^\prime}(t) = f^{T^\prime}(t)$.
+\item If $S$ is a stock, then changes in the stock price are inversely correlated to the interest rate (when interest rates decrease, stock prices increase), so $F^{T^\prime}(t) \neq f^{T^\prime}(t)$.
+
+\begin{remark}
+In banks, there is frequently a desk called "Delta One" (i.e. all derivatives must have $\Delta=1$) that deals with this: they trade forwards and futures knowing their price differes and trying to identify mispricings. The \$6 billion loss incurred by Jérôme Kerviel at Société Générale occured while he was working on the Delta One desk. Theoretically he was hedged, long $F^{T^\prime}$ and short $f^{T^\prime}$, but in reality he did not have a position in $f^{T^\prime}$.
+\end{remark}
+
+\item If $S$ is a currency, then as exhcnage rate differentials are highly correlated to interest rate differentials, $\Corr(S, r) \neq 0$, so $F^{T^\prime}(t) \neq f^{T^\prime}(t)$.
+\end{enumerate}
+\item If we incorporate credit risk into the analysis, then if the long counterparty has a better credit profile we will have $F^{T^\prime}(t) > f^{T^\prime}(t)$. The difference between the two will increse with the credit spread.
+\item In the situation of stochastic interest rates and any general asset $S$, then $F^{T^\prime}(t) \neq f^{T^\prime}(t)$.
+\end{enumerate}
+
+We mentioned last week (with no proof) the "spot-forward" relationship in the case of the constant interest rate. We will now extend it to stochastic interest rates. 
+\begin{theorem}
+Let $S$ be a generic risky asset (with no cash flows and making no assumptions on the dynamics of $S(t)$) and let $B^{T^\prime}$ be a zero-coupon bond paying \$1 at date $B^{T^\prime}$ (with price $B^{T^\prime}(t)$ at time $t$). Then
+$$ f^{T^\prime}(t) = \frac{S(t)}{B^{T^\prime}(t)}$$
+and, since $B^{T^\prime}(t) < 1$ when $t < T^\prime$
+$$ f^{T^\prime}(t) < S(t)$$ 
+\end{theorem}
+\begin{proof}
+We will invoke the no-arbitrage condition and, as always, build a replicating portfolio. At time $t$, we sell a forward contract written on $S$ expiring at time $T^\prime$. We buy $S$ and have negative cash flow of $-S(t)$. We finance this by borrowing $S(t)$.  At time $T^\prime$, we deliver $S$, receive our forward price $f^{T^\prime}(t)$, and repay our loan with interest, $\frac{S(t)}{B^{T^\prime}(t)}$.  Our cash flow (and portfolio value) looks like this: \\
+
+\begin{tabular}{l | c | l | c }
+\multicolumn{2}{c|}{at time $t$} & \multicolumn{2}{c}{at time $T^\prime$} \\
+action & cash flow & action & cash flow  \\
+\hline
+borrow cash & $+S(t)$  & repay loan & -$\frac{S(t)}{B^{T^\prime}(t)}$  \\
+buy stock & $-S(t)$ & deliver stock & 0\\
+write a forward & 0 & recive forward price & $f^{T^\prime}(t)$ \\
+\hline
+total $V_p(t)$ & 0 & total $V_p(T^\prime)$ & $f^{T^\prime}(t) - \frac{S(t)}{B^{T^\prime}(t)}$ \\
+\end{tabular}\\
+
+Since the value of our portfolio at time $t$ is zero, and we have no interim cash flows, then we known by no arbitrage that the value of our portfolio at time $T^\prime > t$ also must be zero. Therefore
+$$f^{T^\prime}(t) - \frac{S(t)}{B^{T^\prime}(t)} = 0 \qquad \implies \qquad f^{T^\prime}(t) = \frac{S(t)}{B^{T^\prime}(t)}$$
+\end{proof} 
+
+We can now consider variations of this argument, with the same starting assumptions, for different assets:\\
+
+\begin{enumerate}
+\item Let $S$ be a stock paying a continuous dividend $q$ under stochastic interest rates. Recall that when you own $S$ over the period $(t, t + \dif t)$ you receive the dividend amount $g \dif t \cdot S(t)$. We immediately reinvest this dividend, i.e. purchase more shares of $S$ at the prevaling price $S(t + \dif t)$. The number of shares owned thus grows at the rate $g$; i.e., if we start at date $t$ with one share, than at $T^\prime$ we will have $e^{q(T^\prime - t)}$ shares. \\
+
+Our replicating portfolio works as follows: at time $t$, we buy $e^{-q(T^\prime - t)}$ shares for each share of $S$ we need to deliver according to the contract $f$, and have negative cash flow of $-S(t)e^{-q(T^\prime - t)}$. We finance this by borrowing $S(t)e^{-q(T^\prime - t)}$, and sell a forward contract written on $S$ expiring at time $T^\prime$. At time $T^\prime$, we deliver the resulting shares of $S$, receive our forward price $f^{T^\prime}(t)$, and repay our loan.  Our cash flow looks like this:
+
+\begin{tabular}{l | c | l | c }
+\multicolumn{2}{c|}{at time $t$} & \multicolumn{2}{c}{at time $T^\prime$} \\
+action & cash flow & action & cash flow  \\
+\hline
+borrow cash & $+S(t)e^{-q(T^\prime - t)}$  & repay loan & -$\frac{S(t)e^{-q(T^\prime - t)}}{B^{T^\prime}(t)}$  \\
+buy stock & $-S(t)e^{-q(T^\prime - t)}$ & deliver stock & 0\\
+write a forward & 0 & recive forward price & $f^{T^\prime}(t)$ \\
+\hline
+total $V_p(t)$ & 0 & total $V_p(T^\prime)$ & $f^{T^\prime}(t) - \frac{S(t)e^{-q(T^\prime - t)}}{B^{T^\prime}(t)}$ \\
+\end{tabular}\\
+
+As before, the initial portfolio value is zero, so we can invoke the no-arbitrage condition to get:
+$$f^{T^\prime}(t) = \frac{S(t)e^{-q(T^\prime - t)}}{B^{T^\prime}(t)}$$
+
+\item Let $S$ be a commodity under stochastic interet rates. Ownership of a commodity gives you the benefit of a convenience yield $y$ (Kaldoz 1949). Under stochastic interest rates we can consider $y$ to be equivalent to the dividend yield of a stock, and so by the above argument:
+$$f^{T^\prime}(t) = \frac{S(t)e^{-y(T^\prime - t)}}{B^{T^\prime}(t)}$$
+
+\item Let $S$ be a currency under stochastic interest rates. We need to consider which economy of the currency pair we are in. As an example, let the domestic currency be U.S. dollars (\$) and the foreign currency be Japanese yen (\yen). Let $X(t)$ be the number of dollars I need at date $t$ to buy one unit of yen. If I need to make a payment in yen in 6 months (at $T^\prime$), I can either buy the yen today in the spot market or I can buy a forward contract with maturity $T^\prime$. Under no-arbitrage, these two transactions should have the same price:
+$$f^{T^\prime}(t) = \frac{X(t) B^{T^\prime}_{\text{foreign}}(t)}{B^{T^\prime}_{\text{domestic}}(t)}$$
+That is, the currency behaves like a dividend-paying {\em domestic} stock with the dividend rate equal to the short-term rate in the {\em foreign} economy.
+\end{enumerate}
+
+\section{Valuing Risky Cash Flows Under Stochastic Interest Rates}
+
+Recall we showed that in the Black-Scholes setting, under the assumption of no arbitrage, we were able to construct a probability measure $\Qmeas$, equivalent to $\Pmeas$, such that the discounted prices $S_j(t)e^{-rt}$ of the primitive securities $S_j$ (including the money market account $S_0$) were $\Qmeas$-martingales. \\
+
+Recall also that the assumption of "constant rates" in the Black-Scholes setting was sloppy. In continuous time, we should specify that the interest rate of significance is the short-term (or overnight) rate $r(t)$ prevailing on $(t, t + \dif t)$. This rate is also the base rate against which other variable rates (such as mortgages) are defined, and which is affected by monetary policy. \\
+
+Consider the money market account:
+$$ M(t + \dif t) = M(t) + r(t) M(t) \dif t \qquad \implies \qquad dM(t) = r(t) M(t) \dif t$$
+In the particular case when the short-term rate is constant, $r(t) = r$, we have the ODE 
+$$dM(t) = r M(t) \dif t$$
+which has solution
+$$M(t) = e^{rt} M(0) \qquad \text{or} \qquad M(t) = e^{rt}$$
+if, as usual, we define $M(0) = 1$.
+
+For the general case $r(t)$ is not constant: it evolves randomly over time. The solution then becomes
+$$M(t) = M(0) \exp \left\{ \int_0^t r(s) \dif s\right\} \qquad \text{or} \qquad M(t) = \exp \left\{ \int_0^t r(s) \dif s\right\}$$
+if $M(0) = 1$. At time 0, this quantity is unknown, and so the money market account is no longer risk-free. Hence, results need to be adjusted. \\
+
+Let $\widetilde{\Phi}_T$ denote a contingent claim paying a unique cashflow at date $T$ that is {\em attainable}, that is, it has at least one replicating portfolio build from primitive securities. We will show that 
+$$ V_t(\widetilde{\Phi}_T) = \Exp_{\Qmeas} \left[ \widetilde{\Phi}_T e^{-\int_t^T r(s) ds} \middle/ \Filtr_t \right]$$\\
+
+Consider two particular cases:
+\begin{enumerate}
+\item Return for a second to constant interest rates. Then clearly the discount factor can be moved outside the expectation (see the second proof of the Black-Scholes formula).
+\item Consider the case when $\widetilde{\Phi}_T$ is constant. Assume that $\widetilde{\Phi}_T = 1$. Then by no-arbitrage we have:
+$$ V_t(\widetilde{\Phi}_T) = \Exp_{\Qmeas} \left[ 1 \cdot e^{-\int_t^T r(s) ds} \middle/ \Filtr_t \right] = B^T(t)$$\\
+where $B^T$ are short-term bonds, and by definition
+$$B^T(t) = \Exp_{\Qmeas} \left[ e^{-\int_t^T r(s) ds} \middle/ \Filtr_t \right]$$
+
+$B^T$ has beautiful properties: 
+\begin{enumerate}
+\item It appears in the equation as a discount factor with no assumptions about interest rates. 
+\item It is actively and continuously traded in the market, and remarkably liquid.
+\item At maturity, $B^T(T) = 1$.
+\end{enumerate}
+We see that in contrast,
+$$M(T) = M(t)\Exp_{\Qmeas} \left[ e^{\int_t^T r(s) ds} \middle/ \Filtr_t \right]$$
+so there is nothing remarkable about $M(T)$, and we prefer to use $B_T$ in this case. \\
+\end{enumerate}
+
+Recall our FFTAP,\footnote{First Fundamental Theorem of Asset Pricing} which stated that by the no-arbitrage condition, $S_je^{-rt}$ are $\Qmeas$-martingales. In fact, assuming $M(0) = 1$, then
+$$ S_j(t)e^{-rt} = \frac{S_j(t)}{M(t)}$$
+under the constant interest rate.
+
+\section{Change of Measure to Handle Stochastic Interest Rates}
+
+Recall that by the Cameron-Martin-Girsanov theorem, we could transform the measure $\Pmeas$ into the measure $\Qmeas$, that absorbed the market price of equity risk $\lambda$. \\
+
+Now under stochastic interest rates we have
+$$ V_t(\widetilde{\Phi}_T) = \Exp_{\Qmeas} \left[ \widetilde{\Phi}_T e^{-\int_t^T r(s) ds} \middle/ \Filtr_t \right]$$
+Consider the case when the two components are independent. Then the expectation of the product is the product of the expectations,
+$$ V_t(\widetilde{\Phi}_T) = \Exp_{\Qmeas} \left[ \widetilde{\Phi}_T \middle/ \Filtr_t \right] \Exp_{\Qmeas} \left[ e^{-\int_t^T r(s) ds} \middle/ \Filtr_t \right] = \Exp_{\Qmeas} \left[ \widetilde{\Phi}_T \middle/ \Filtr_t \right] B^T(t)$$
+If they are not, then we need to separate the terms in some other way. We can do this by changing the measure on $\left(\Omega, \sigma(\Omega)\right)$. Consider the Radon-Nikodym derivative defining a new measure $\Qmeas_T$ with respect to $\Qmeas$ that removes the interest rate term:
+$$\frac{\dif \Qmeas_T}{\dif \Qmeas} = e^{-\int_t^T r(s) ds} \qquad \implies \qquad \Exp_{\Qmeas} \left[ \frac{\dif \Qmeas_T}{\dif \Qmeas} \right]  = \Exp_{\Qmeas} \left[ e^{-\int_t^T r(s) ds} \right] = B^T(t)$$
+It will be more convenient for us to have $\Exp_{\Qmeas} \left[ \frac{\dif \Qmeas_T}{\dif \Qmeas} \right] = 1$ and so we define 
+$$\frac{\dif \Qmeas_T}{\dif \Qmeas} = \frac{e^{-\int_t^T r(s) ds}}{B^T(t)}$$
+We can use this to rewrite
+$$ V_t(\widetilde{\Phi}_T) = \Exp_{\Qmeas} \left[ \widetilde{\Phi}_T e^{-\int_t^T r(s) ds} \middle/ \Filtr_t \right] = \Exp_{\Qmeas} \left[ \widetilde{\Phi}_T B^T(t) \frac{\dif \Qmeas_T}{\dif \Qmeas} \middle/ \Filtr_t \right]$$
+But $B^T(t)$ is observed and known at time $t$:
+$$ V_t(\widetilde{\Phi}_T) = B^T(t) \Exp_{\Qmeas} \left[ \widetilde{\Phi}_T \frac{\dif \Qmeas_T}{\dif \Qmeas} \middle/ \Filtr_t \right]$$
+Knowing that 
+$$\Exp_{\Qmeas}\left[X\right] = \int_\Omega X \dif \Qmeas$$
+We can now change the measure of our expectation:
+$$ \Exp_{\Qmeas} \left[ \widetilde{\Phi}_T \frac{\dif \Qmeas_T}{\dif \Qmeas} \middle/ \Filtr_t \right] 
+= \int_\Omega \widetilde{\Phi}_T \frac{\dif \Qmeas_T}{\dif \Qmeas} \dif \Qmeas 
+= \int_\Omega \widetilde{\Phi}_T \dif \Qmeas_T 
+= \Exp_{\Qmeas_T} \left[ \widetilde{\Phi}_T \middle/ \Filtr_t \right]$$
+And we end up with:
+$$ V_t(\widetilde{\Phi}_T) = B^T(t) \Exp_{\Qmeas_T} \left[ \widetilde{\Phi}_T \middle/ \Filtr_t \right]$$\\
+
+Let us apply the result to a non-dividend-paying stock $S$. Specifically, in the above formula, we substitute $\widetilde{\Phi}_T = S(T)$. By no-arbitrage and the above result, 
+$$ S(t) = V_t\left(S(T)\right) = B^T(t) \Exp_{\Qmeas_T} \left[ S(T) \middle/ \Filtr_t \right]$$
+so
+$$ \frac{S(t)}{B^T(t)} = \Exp_{\Qmeas_T} \left[ S(T) \middle/ \Filtr_t \right] = \Exp_{\Qmeas_T} \left[ \frac{S(T)}{1} \middle/ \Filtr_t \right] = \Exp_{\Qmeas_T} \left[ \frac{S(T)}{B_T(T)} \middle/ \Filtr_t \right] $$
+\begin{remark}[Geman 1989]
+We recall that $\frac {S(t)}{B^T(t)}$ is the $T$-forward price of $S$ at time $t$, $f^T(t)$.
+Thus 
+$$ f^T(t) = \Exp_{\Qmeas_T} \left[ f_T(T) \middle/ \Filtr_t \right]$$
+That is, the $T$-forward price of $S$ is a $\Qmeas_T$-martingale, and we call $\Qmeas_T$ the {\em $T$-forward measure} .
+\end{remark}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}

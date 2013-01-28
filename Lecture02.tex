@@ -1,0 +1,211 @@
+\documentclass[11pt]{article}
+\textheight 22cm \textwidth 16.5cm \oddsidemargin 0cm \topmargin -.5cm
+\usepackage[utf8x]{inputenc}
+\usepackage{pricing_notes}
+
+\date{Lecture 2 (15 Jan. 2013)}
+
+\begin{document}
+
+{\small \maketitle}
+
+\section{Recapitulation}
+
+We showed that, under the Black-Scholes assumptions (wihout introducing derivatives) there exists a probability measure $\Qmeas$ such that the discounted prices of primitive securities are $\Qmeas$-martingales. In finance, this result is called the:
+
+\begin{theorem}[\nth{1} Fundamental Theorem of Asset Pricing] Under no arbitrage, there exists at least one probability measure $\Qmeas$ such that the discounted prices of all primitive securities are $\Qmeas$-martingales.
+\end{theorem}
+
+With the following definitions we can state another fundamental result:
+
+\begin{definition}[contingent claim]
+A {\bf contingent claim} is a risky (uncertain) cash flow paid at some time $T$ in the future.
+\end{definition}
+
+\begin{definition}[replicating portfolio]
+A {\bf replicating portfolio} for a risky asset $X$ is a portfolio of primitive securities $S_0,\dotsc,S_n$ with coefficients $a_0,\dotsc,a_n$ such that for all states of the world at time $T$ the payoff of the replicating portfolio is equal to the payoff of the contingent claim:
+$$ \forall \omega \in \Omega, \quad X(\omega) = \sum_{j=0}^n a_j S_j(\omega)$$
+\end{definition}
+
+\begin{definition}[complete market]
+A market is {\bf complete} if and only if any contingent claim has at least one replicating portfolio.
+\end{definition}
+
+\begin{theorem}[\nth{2} Fundamental Theorem of Asset Pricing] Under no arbitrage and a complete market:
+\begin{enumerate}
+\item $\Qmeas$ is unique, and
+\item any contingent claim has a discounted price that is also a $\Qmeas$-martingale.
+\end{enumerate}
+\end{theorem}
+
+\begin{remark}
+Each assumption leads to a different consequence:
+\begin{enumerate}
+\item The completeness of the market ensures that any contingent claim has at least one price.
+\item The addition of the no-arbitrage condition ensures that the price is unique.
+\item If under no arbitrage, but without a complete market, there are many equivalent $\Qmeas$-measures and therefore many prices (this is the case with weather derivatives, for example).
+\end{enumerate}
+\end{remark}
+
+\section{Rederivation of the Black-Scholes Formula}
+Firstly, observe that the Black-Scholes economy is a complete market. 
+\begin{enumerate}
+\item There are two non-redundant primitive securities $M$ and $S$ and one source of risk $W$ (one of the the simplest possible random processes). The risky security $S$ evolves through time as:
+\begin{equation} \label{stock_price_process}
+\frac{\dif S_t}{S_t} = r \dif t + \sigma \dif \hat{W}_t
+\end{equation}
+\item The contingent claims can be replicated with a portfolio that is dynamically adjusted over time.
+\end{enumerate}
+Now examine the formula to price a call option:
+$$C(t)e^{-rt} = \Exp_{\Qmeas}\left[ C(T)e^{-rT} \middle/ \Filtr_t \right] = \Exp_{\Qmeas}\left[ \left(S_T-K\right)^+ e^{-rT} \middle/ \Filtr_t \right]$$
+If we assume constant short-term interest rates, we can rearrange this to get:
+$$C(t) = e^{-r(T-t)}\Exp_{\Qmeas}\left[ \left(S_T-K\right)^+ \middle/ \Filtr_t \right]$$
+\begin{remark}
+ $\Qmeas$ is not the familiar statistical probability measure. Instead, we call $\Qmeas$ the {\bf pricing measure} on $\Omega$, because unlike $\Pmeas$ it allows to write the price as the expectation of the final value.
+\end{remark}
+\begin{remark}
+Since $C(T)(\omega) \geq 0  \quad \forall \omega \in \Omega$, by the no-arbitrage condition we have $C(t) > 0$; that is, the option removes the possibility of loss from exposure to the source of risk, and must therefore have a positive value before expiry.
+\end{remark}
+Since the payoff value is only positive under exercise, we can decompose the payoff into the difference between price and strike and an indicator of the exercise, $\epsilon = \left\{ \omega \in \Omega \middle/ S(T)(\omega) \geq K\right\}$:
+$$ (S_T-K)^+ = (S_T-K) \cdot \Ind_{\epsilon} = (S_T \Ind_{\epsilon}) - (K \Ind_{\epsilon})$$
+Heston (1993) assumed heuristically that the price of an option is a difference of two terms, but we can see it directly from the above formula. Let us break it down into the two terms $C(t) = D_1 + D_2$ where:
+\begin{align*}
+D_1 &= e^{-r(T-t)}\Exp_{\Qmeas}\left[ S_T \Ind_{\epsilon} \middle/ \Filtr_t \right] & D_2 &= K e^{-r(T-t)}\Exp_{\Qmeas}\left[ \Ind_{\epsilon} \middle/ \Filtr_t \right] = K e^{-r(T-t)}\Prob_{\Qmeas}\left[ S_T > K \middle/ \Filtr_t \right]
+\end{align*}
+Consider the second term. By stochastic integration of \eqref{stock_price_process}, we get
+$$ S_T = S_t \exp \left\{ \left( r - \frac{\sigma^2}{2}\right)(T-t) + \sigma \hat{W}(T-t)\right\}$$
+So
+\begin{align*}
+\Prob_{\Qmeas}\left[ S_T > K \middle/ \Filtr_t \right] 
+&= \Prob_{\Qmeas}\left[ \ln S_T > \log K \middle/ \Filtr_t \right] \\
+&= \Prob_{\Qmeas}\left[ \ln S_t + \left( r - \frac{\sigma^2}{2}\right)(T-t) + \sigma \hat{W}_{T-t} > \ln K \middle/ \Filtr_t \right] \\
+\end{align*}
+in which $\hat{W}(T-t) \thicksim N(0, T-t)$ is the only random term. By elementary computation we then have:
+$$\Prob_{\Qmeas}\left[ S_T > K \middle/ \Filtr_t \right] = \Phi(d_2) \qquad \text{where} \qquad d_2 = \frac{\ln \left( \frac{S(t)}{Ke^{-r(T-t)}}\right) - \frac{1}{2}\sigma^2(T-t)}{\sigma \sqrt{T-t}}$$ 
+and where $\Phi$ is the c.d.f. of the normal distribution. \\
+
+Even just this second half of the equation for $C(t)$ can be useful. Consider a digital call option $C^{\text{dig}}$, which pays 1 unit at $T$ if $S(T) > K$. Then the price is exactly the formula above:
+$$C^{\text{dig}}(t) = e^{-r(T-t)} \Phi(d_2)$$
+To hedge such an option, one would need to hold $S$ equivalent in quantity to 
+$$\Delta C^{\text{dig}}(t) = \pd{C^{\text{dig}}}{S}(t) =  e^{-r(T-t)} \pd{\Phi}{d_2} \pd{d_2}{S} = e^{-r(T-t)} f(d_2) \frac{1}{S(t) \sigma \sqrt{T-t}}$$
+where $f$ is the p.d.f. of the Normal distribution. \\
+
+As $t \rightarrow T$, hedging the option becomes increasingly difficult, as we are used to continuous prices, but the payoff function is discontinuous. In practice, this problem is often solved by approximating $C^{\text{dig}}$ (with a strike of $K$) by an instrument known as a call spread, long a call option $C_1$ and short a call option $C_2$ with strikes $K_1$ and $K_2$ such that $K_1 < K < K_2$ and $K_2 - K_1$ is relatively small, so $\Delta C^{\text{dig}} \approx \Delta C_1 - \Delta C_2$.\\
+
+Returning to the other half of the original formula, $D_1$, we remember that 
+$$\Exp_{\Qmeas}[X] = \int_{\Omega} X \dif \Qmeas = \int_{\Real} x g(x) \dif x$$
+where $g(x)$ is the p.d.f. of $X$ under $\Qmeas$. So:
+$$D_1 = e^{-r(T-t)}\Exp_{\Qmeas}\left[ S_T \Ind_{\epsilon} \middle/ \Filtr_t \right] = e^{-r(T-t)}\int S_T \Ind_{\epsilon} \dif \Qmeas = e^{-r(T-t)}\int S_T \Ind_{\epsilon} g(S_T \Ind_{\epsilon}) \dif S_T$$
+
+Noting that $S_T$ is always non-negative, so the lower bound of the integral is at least 0, and also note that $\Ind_{\epsilon}$ is 0 if $S_T < K$, which lets us raise the lower bound to $K$. When $S_T \geq K$, $\Ind_{\epsilon}$ is always 1, so we can now write:
+$$D_1 = e^{-r(T-t)}\int_K^\infty S_T g(S_T) \dif S_T$$
+To get the p.d.f. $g$, we note that 
+$$S_T = S_t \exp \left\{ \left( r - \frac{\sigma^2}{2}\right)(T-t) + \sigma \hat{W}(T-t)\right\} $$
+is a log-normal random variable under $\Qmeas$. After integration, (left as an exercise to the reader) we get the standard Black-Scholes formula 
+$$D_1=S(t)\Phi(d_1) \qquad \text{where} \qquad d_1 = \frac{\ln \left( \frac{S(t)}{Ke^{-r(T-t)}}\right) + \frac{1}{2}\sigma^2(T-t)}{\sigma \sqrt{T-t}}$$\\
+
+\subsection{Put-Call Parity}
+From the no-arbitrage condition we can derive the equation for put-call parity:
+$$C(t) + Ke^{-r(T-t)} = S(t) + P(t)$$
+Then, without further integration, we derive the price of a put option:
+$$P(t) = Ke^{-r(T-t)}\left( 1 - \Phi(d_2) \right) - S(t) \left( 1 - \Phi(d_1)\right) = Ke^{-r(T-t)}\Phi(-d_2) - S(t) \Phi(-d_1)$$
+This gives us simple expressions relating the delta and gamma of put and call options:
+\begin{align*}
+\Delta C &= 1 + \Delta P & \Delta P &= \Delta C - 1 & \Gamma C &= \Gamma P
+\end{align*}
+
+\subsection{Portfolio Insurance}
+Assume that at time $t$ we buy a stock $S$ and a put option $P$ with strike $K < S(t)$. The value of that portfolio at time $T$ is:
+$$V(T) = S(T) + P(T) = S(T) + \max \left( K - S(T), 0\right) = \max \left(K, S(T)\right)$$
+Assume that our utility function $U$ is increasing in wealth ($U^\prime > 0$) but we are averse to risk ($U^{\prime\prime} < 0$). Then this strategy, called {\bf portfolio insurance}), theoretically satisfies both the demand for the return and the aversion to risk. In this case, $K$ is called the floor of the portfolio insurance strategy. \\
+
+The technique of portfolio insurance was developed in 1976 by Hayne Leland and Mark Rubenstein in the finance group at U.C. Berkeley. They, along with Mark O'Brien later went on to found LOR Associates in 1981.\\
+\begin{chronology}[5]{1970}{1990}{4ex}{\textwidth}
+\event{1973}{Black-Scholes}
+\event{1976}{Portfolio insurance}
+\event{1981}{LOR}
+\event{1987}{October 1987}
+\end{chronology} \\
+
+The value at time $t$ of an insured portfolio is:
+$$ V(t) = S(t) + P(t) = S(t)\Phi(d_1) + Ke^{-r(T-t)}\Phi(-d_2)$$
+
+To replicate the insurance on the portfolio of a stock $S$ without purchasing the put option, a manager would need to buy $\Phi(d_1)$ of $S$ and invest the remainder in $M$, with the effective $K$ determined by the amount of remaining money and the need for the portfolio to be self-financing.
+
+At a subsequent time $t^\prime$, $\Phi(d_1)$ will have changed, and so the holding of $S$ must adjust accordingly. Observe that $\Phi(d_1)$ (the delta of a call option) has a derivative with respect to $S$ equal to $\Gamma C$, the gamma of a call option, which is always positive. Therefore if $S$ rises, more will need to be purchased; if $S$ falls, it will need to be sold. 
+$$ \text{market falls} \rightleftharpoons \text{sell stocks}$$
+On Monday October 19, 1987, the stock exposure of the LOR portfolio insurance programme was not (or could not) have been adjusted fast enough to compensate for the fall in prices. When the crash was over, LOR was gone.
+
+\section{Merton (1973) Model}
+Beginning with the same assumptions as the Black-Scholes formula, we now add the complication of a dividend-paying stock. We assume constant dividends paid in continuous time. From a finance standpoint, this is a poor approximation for single stocks, slightly better for stock indices; but it simplifies the mathematics. Call this constant continuous dividend $g$; over the time period $(t, t + \dif t)$, the owner of $S$ receives $gS(T)\dif t$.\\
+
+Now consider two stocks $S$ and $S^\prime$, identical in every way expect that $S$ reinvests earnings and $S^\prime$ pays them out as dividends at rate $g$. The price of $S$ grows at rate $\mu = \frac{1}{\dif t} \Exp_{\Pmeas} \left( \frac{\dif S_T}{S_T} \middle/ \Filtr_t\right)$. Then the price of $S^\prime$ must grow at rate $\mu  - g$.
+
+\begin{remark}
+Since the dividends are assumed to be non-random, the change of probability measure is identical between the Black-Scholes and Merton formulations.
+\end{remark}
+We therefore claim that, under the same $\Qmeas$ measure,
+$$ \frac{\dif S_T}{S_T} = (r-g)\dif t + \sigma \dif \hat{W}_T$$
+By the same computations as before:
+$$S_T = S_t \exp \left\{ \left( r - g - \frac{\sigma^2}{2}\right)(T-t) + \sigma \hat{W}(T-t)\right\} $$
+\begin{remark}
+Since $g$ is present in the dynamics of $S$ under pricing measure $\Qmeas$, it will be present in the Merton pricing formula.
+\end{remark}
+We end up with:
+$$C^{\text{Merton}}(t) = e^{-g(T-t)}S(t)\Phi(d_1) - Ke^{-r(T-t)}\Phi(d_2)$$
+where
+\begin{align*}
+d_1 &= \frac{\ln \left( \frac{S(t)e^{-g(T-t)}}{Ke^{-r(T-t)}}\right) + \frac{1}{2}\sigma^2(T-t)}{\sigma \sqrt{T-t}} &
+d_2 &= \frac{\ln \left( \frac{S(t)e^{-g(T-t)}}{Ke^{-r(T-t)}}\right) - \frac{1}{2}\sigma^2(T-t)}{\sigma \sqrt{T-t}}
+\end{align*}
+And the delta of a call option under this model is $e^{-g(T-t)}\Phi(d_1)$.
+\begin{remark}
+In the case of commodities, the Merton model is very useful, as the continuous rate $g$ closely represents the convenience yield (or storage cost) of a commodity.\end{remark}
+
+\section{Black (1976) Model}
+
+\begin{remark}
+A brief reminder on forwards and futures:
+\begin{enumerate}
+\item A forward is a contract signed at time $t$, between two parties to buy or sell an asset $S$ at a specified future time ${T_1}$, for a given price $f^{T_1}(t)$.
+\item A future contract is a standardised forward contract, traded on a exchange, which generally requires margin deposits proportional to the exposure of the position and requires margin calls throughout the lifetime of the position. We denote the price at time $t$ of a future expiring at time $T_1$ as $F^{T_1}(t)$.
+\end{enumerate}
+\end{remark}
+\begin{theorem}[Cox Ingersoll Ross (1981)] Assuming no credit risk in the economy, and
+\begin{enumerate}
+\item constant interest rates, then $F^{T_1}(t) = f^{T_1}(t)$
+\item stochastic interest rates, then $F^{T_1}(t) = f^{T_1}(t)$ as long as there is no correlation between $S$ and the interest rate
+\end{enumerate}
+\end{theorem}
+We now consider options on futures. We begin from the same assumptions as Black-Scholes, and modify them in one of two ways:
+\begin{enumerate}
+\item we can follow the original approach of Black (1976) and treat the future $F_T$ as as a primitive security in the market, assuming that it is liquid and traded continuously, or
+\item rely the results above that every contingent claim has a unique price.
+\end{enumerate}
+We then calculate the value of a call option expiring at time $T < {T_1}$ on a future. Following the original proof, we will hold $r$ constant, so that $F^{T_1}(T) = f^{T_1}(T)$:
+$$C^{\text{Black}}(t) = e^{-r(T-t)}\Exp_{\Qmeas}\left[ \left(F^{T_1}(T)-K\right)^+ \middle/ \Filtr_t \right] = e^{-r(T-t)}\Exp_{\Qmeas}\left[ \left(f^{T_1}(T)-K\right)^+ \middle/ \Filtr_t \right]$$
+In order to relate this to the price process $S(t)$, we need the spot-forward relationship. In the case of a non-dividend-paying $S$, $f^{T_1}(t) = S(t)e^{r(T-t)}$. We can take the log differential of this expression to get
+$$ \frac{\dif f^{T_1}(t)}{f^{T_1}(t)} = \frac{\dif S(t)}{S(t)} + \frac{\dif  \left(e^{r(T-t)}\right)}{e^{r(T-t)}} = \frac{\dif S(t)}{S(t)} - r \dif t = \sigma \dif\hat{W}_t$$
+We can see that this resembles the Merton model for a dividend-paying stock with $g = r$, and so we solve in the same way. We end up with:
+$$C^{\text{Black}}(t) = e^{-r(T-t)}f^{T_1}(t)\Phi(d_1) - Ke^{-r(T-t)}\Phi(d_2) = e^{-r(T-t)}\left(f^{T_1}(t)\Phi(d_1) - K\Phi(d_2)\right)$$
+where
+\begin{align*}
+d_1 &= \frac{\ln \left( \frac{f^{T_1}(t)}{K}\right) + \frac{1}{2}\sigma^2_{f^{T_1}}(T-t)}{\sigma_{f^{T_1}} \sqrt{T-t}} &
+d_2 &= \frac{\ln \left( \frac{f^{T_1}(t)}{K}\right) - \frac{1}{2}\sigma^2_{f^{T_1}}(T-t)}{\sigma_{f^{T_1}} \sqrt{T-t}}
+\end{align*}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}

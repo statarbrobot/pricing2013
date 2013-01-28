@@ -1,0 +1,41 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{pricing_notes}[2013/1/16 v1.1 Updated symbols]
+\RequirePackage{chronology}
+\RequirePackage{amssymb}
+\RequirePackage{amsmath}
+\RequirePackage{amsthm}
+\RequirePackage{nicefrac}
+\RequirePackage{engord}
+\RequirePackage{enumerate}
+\RequirePackage{commath}
+\RequirePackage{dsfont}
+
+\newcommand{\nth}[1]{\engordnumber{#1}}
+
+\title{\textbf{Pricing}\\(Stochastic Processes and Financial Applications)}
+\author{Hélyette GEMAN}
+\date{Replace this with the date of the lecture}
+
+\textheight 22cm \textwidth 16.5cm \oddsidemargin 0cm \topmargin -.5cm
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}
+
+
+\DeclareMathOperator{\Exp}{\mathbb E}
+\DeclareMathOperator{\Ind}{\mathds 1}
+\DeclareMathOperator{\Qmeas}{\mathbb Q}
+\DeclareMathOperator{\Pmeas}{\mathbb P}
+\DeclareMathOperator{\Real}{\mathbb R}
+\DeclareMathOperator{\Rational}{\mathbb Q}
+\DeclareMathOperator{\Prob}{\mathsf Prob}
+\DeclareMathOperator{\Pow}{\mathcal P}
+\DeclareMathOperator{\Distrib}{\mathcal L}
+\DeclareMathOperator{\Filtr}{\mathcal F}
+\DeclareMathOperator{\Corr}{\mathrm Corr}

@@ -1,0 +1,302 @@
+\documentclass[11pt]{article}
+\textheight 22cm \textwidth 16.5cm \oddsidemargin 0cm \topmargin -.5cm
+\usepackage[utf8x]{inputenc}
+\usepackage{enumerate}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{nicefrac}
+\usepackage{chronology}
+
+
+\title{\textbf{Pricing}\\(Stochastic Processes and Financial Applications)}
+\author{Hélyette GEMAN}
+\date{Lecture 1 (8 Jan. 2013)}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}[section]
+
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+
+\DeclareMathOperator{\Exp}{\mathbb{E}}
+\DeclareMathOperator{\Que}{\mathbb{Q}}
+\DeclareMathOperator{\Real}{\mathbb{R}}
+\DeclareMathOperator{\Rational}{\mathbb{Q}}
+\DeclareMathOperator{\Prob}{\mathbb{P}}
+\DeclareMathOperator{\Pow}{\mathcal{P}}
+\DeclareMathOperator{\Distrib}{\mathcal{L}}
+\DeclareMathOperator{\Filtr}{\mathcal{F}}
+
+\begin{document}
+
+{\small \maketitle}
+
+\section{Measure Theory}
+
+\begin{itemize}
+\item Measure theory was developed in the late 19th century to the early 20th century
+\item Key contributors include Émile Borel, Henri Lebesgue, Johann Radon, and Maurice Fréchet
+\end{itemize}
+
+It forms the foundations of:
+
+\begin{enumerate}
+\item The Lebesgue integral (in some sense richer than the Riemann integral)
+\item Kolmogorov axiomatic probability theory
+\end{enumerate}
+
+\begin{definition}[$\sigma$-algebra] 
+Let $\Omega$ be a set and the power set $\Pow(\Omega)$ be the set of all subsets of $\Omega$. Then $\Sigma \subset \Pow(\Omega)$ is a {\bf $\sigma$-algebra} on $\Omega$ if and only if $\Sigma$ is:
+\begin{enumerate}
+\item Closed under complementarity: for any $A \in \Sigma$, $\complement_\Omega A \in \Sigma$
+\item Closed under countable union: for any $A_1, A_2, \dots \in \Sigma$, $\bigcup A_i \in \Sigma$
+\item Complete: $\varnothing \in \Sigma$
+\end{enumerate}
+\end{definition}
+For practical matters, let $\Omega$ be a sample space and $\Sigma = \Pow(\Omega)$.
+
+\begin{definition}[measure]
+Let $\Omega$ and $\Sigma$ be defined as above. Then the mapping $\mu:\Sigma\mapsto \Real$ is a {\bf measure} on $\Omega$ if and only if:
+\begin{enumerate}
+\item $\mu(A) \geq 0$ for all $A \in \Sigma$
+\item $\mu(\varnothing) = 0$
+\item $\mu$ is $\sigma$-additive, that is, for all pairwise disjoint $A_1, A_2, \dots \in \Sigma$, $\mu\left(\bigcup_i A_i\right) = \sum_i \mu(A_i)$
+\end{enumerate}
+The triple $(\Omega, \Sigma, \mu)$ is called a {\bf measure space}.
+\end{definition}
+
+One fundamental example is the Lebesgue measure on $\Real^n$, which maps $A \in \Real$ to its length, $A \in \Real^2$ to its area, $A \in \Real^3$ to its volume, and so on.
+\begin{remark}
+The Lebesgue measure on the rationals $\Rational$ is 0, since the rationals are a countable set of disjoint points with length zero each.
+\end{remark}
+Another example is mass in physics, which is a measure on a quantity of matter.
+
+\begin{definition}[probability measure]
+A measure $\mu$ on the pair $(\Omega, \Sigma)$ is called a {\bf probability measure} if and only if $\mu(\Omega) = 1$. \\
+If $\mu$ is a probability measure, then the triple $(\Omega, \Sigma, \mu)$ is called a {\bf probability space}.
+\end{definition}
+
+\begin{remark}
+Any measure $\mu$ is monotonic, that is, $A \subset B$ implies $\mu(A) \leq \mu(B)$.
+\end{remark}
+
+\begin{proof} Decompose $B$ into the disjoint subsets $B = A \cup \complement_B A$. Then
+$$ \mu(B) = \mu(A \cup \complement_B A) = \mu(A) + \mu(\complement_B A) \geq\mu(A)$$
+since $\mu(\complement_B A) \geq 0$.
+\end{proof}
+
+\begin{remark}
+If $\mu$ is a probability measure, then $\mu(A) \leq 1$ for all $A \in \Sigma$, and so a probability measure takes values in $[0, 1]$.
+\end{remark}
+
+\begin{proof} Decompose $\Omega$ into the disjoint subsets $\Omega = A \cup \complement_\Omega A$. Then
+$$\mu(A) \leq \mu(A) + \mu(\complement_\Omega A) = \mu(A \cup \complement_\Omega A) = \mu(\Omega) = 1$$
+since $\mu(\complement_\Omega A) \geq 0$.
+\end{proof}
+
+\begin{definition}[equivalence] Two probability measures $\Prob_1$ and $\Prob_2$ are {\bf equivalent} if and only if they have the same zero-measure sets, that is:
+$$ \left\{ A \in \Sigma \middle| \Prob_1(A) = 0 \right\} = \left\{ A \in \Sigma \middle| \Prob_2(A) = 0 \right\} $$
+\end{definition}
+
+In finance, we consider $\Omega$ to be the set of states of nature, and generally assume $\Sigma = \Pow(\Omega)$. \\
+
+The first measure we will consider is $\Prob$, the so-called real probability measure or statistical probability measure, as the originators of finance did not have measure theory at their disposal, but many different measures and probability measures can be defined on the same $(\Omega, \Sigma)$. 
+
+\section{Brief History of Finance}
+
+\begin{chronology}[5]{1955}{1980}{3ex}{\textwidth}
+\event{1958}{portfolio theory}
+\event[1963]{1965}{CAPM}
+\event{1973}{Black-Scholes}
+\event{1976}{APT}
+\end{chronology}
+
+\begin{itemize}
+\item In 1958, Markowitz developed portfolio theory, where given a set of stocks and a desired return, we seek to construct the portfolio of minimum variance. All that was needed was the distribution of stock returns under the real probability measure.
+\item In 1963, we have the Capital Asset Pricing Model (the first true model in finance). At equilibrium and under the assumptions of this model, the expected return $\tilde{r}_j$ for a risky security $j$ can be given as the risk-free rate plus some fraction $\beta_j$ of the expected excess return of the market as a whole over the risk-free rate:
+$$ \Exp_{\Prob}\left[\tilde{r}_j\right] = r_f + \beta \left( \Exp_{\Prob} \left[\tilde{r}_m\right] - r_f\right)$$
+In this case we are specifying that the expectation is under the standard real probability measure $\Prob$.
+\item In 1973, we have the Black-Scholes formula in from two parallel papers, one by Fischer Black and Myron Scholes, and the other by Robert Merton. Given a stock $S$ at time $t$ and an option with strike price $K$ and standard call option payoff at time $T$, $C(T) = \max(0, S_t - K)$, the question posed by Black and Scholes (and prior to them in 1900, Louis Bachelier) was to find the value $C(t)$.
+What we would like to do is to break down the price at time $t$ into the expected value of the payoff at time $T$ times some discount factor. The discount factor is simple to calculate, however: 
+\begin{remark}
+The price of a risky cash flow is {\bf not} equal to the discounted expectation of the cash flow, that is the real probability measure $\Prob$ does not do a good job in pricing risky cash flows.
+\end{remark}
+\end{itemize}
+$\Prob$ was useful in portfolio theory, CAPM, and the proof of Black-Scholes, but we need better tools. Fortunately, we can construct more measures (and specifically more probability measures).
+
+\section{Random Variables}
+
+\begin{definition}[random variable] Given a probability space $(\Omega, \Sigma, \mu)$, a {\bf random variable} is a mapping $X:\Omega \mapsto \Real$ such that for all $x \in \Real$:
+$$ X^{-1}\big( (-\infty, x] \big) \equiv \left\{ \omega \in \Omega \middle| X(\omega) \leq x \right\} \in \Sigma$$
+We define the {\bf cumulative density function} as the probability of this set: $$F_X(x) = \mu\left(\left\{ \omega \in \Omega \middle| X(\omega) \leq x\right\}\right)$$
+We use $\mu$ to indicate that this can be any probability measure, not just $\Prob$.
+\end{definition}
+
+\begin{definition}[expectation] Suppose that $X$ takes only positive values. Then we define the expectation under $\mu$ of $X$:
+$$\Exp_\mu = \lim_{n \mapsto \infty} \sum_{k=1}^{n 2^n} \frac{k-1}{2^n} \mu\left( \frac{k-1}{2^n} < X \leq \frac{k}{2^n} \right)$$
+In the setting of measure theory, we can write this as:
+$$\Exp_\mu = \int_\Omega X(\omega) d_\mu(\omega) \qquad \text{or} \qquad \Exp_\mu = \int_\Omega X(\omega) d_\mu(\omega)$$
+\end{definition}
+
+\begin{definition} If $X$ can take both positive and negative values, then we define 
+$$\Exp_\mu (X) = \Exp_\mu (X^+) - \Exp_\mu (X^-)$$
+where 
+$$\Exp_\mu (X^+) = \max(X(\omega), 0) \qquad \text{and} \qquad \Exp_\mu (X^-) = \max(-X(\omega), 0)$$
+
+\end{definition}
+
+
+\section{Arbitrage Pricing Theory}
+We now move forward to 1976 and Ross's Arbitrage Pricing Theory, which aims to extend the CAPM. 
+
+\subsection{Assumptions}
+There are three primary assumptions:
+\begin{enumerate}
+\item There exists one risk-free asset and $N$ stocks (risky assets) where $N$ is large.
+\item There is no arbitrage in the economy, i.e. if you take a portfolio at time zero with zero value, and take no risk, in that the portfolio always has non-negative value for all outcomes in the sample space, then the portfolio must always be of zero value.
+$$V_p(0) = 0 \quad \text{and} \quad V_p(T)(\omega) \geq 0 \quad \forall \omega \in \Omega \implies \quad V_p(T)(\omega) = 0 \quad \forall \omega \in \Omega$$
+\item There are $q$ risk factors $\tilde{F}_1, \tilde{F}_2, \dots, \tilde{F}_q$ in the economy, where $q > 1$ but still small. Examples include GDP growth, the unemployment rate, and the slope of the yield curve.
+\end{enumerate}
+
+\subsection{Conclusion}
+
+Denote as $\tilde{\delta}_i$ the return on an asset uniquely related to $\tilde{F}_i$. For example, if $\tilde{F}_1$ is inflation, then $\tilde{\delta}_1$ would be the return on an inflation bond. Then the expected return on any risk stock $j$ is equal to the risk-free rate plus some fraction of the excess risk premium for each risk factor:
+$$\Exp_{\Prob}\left[\tilde{r}_j\right] = r_f + b_{j1} \left( \Exp_{\Prob}\left[\tilde{\delta}_1\right] - r_f \right) + b_{j2} \left( \Exp_{\Prob}\left[\tilde{\delta}_2\right] - r_f \right) + \cdots + b_{jq} \left( \Exp_{\Prob}\left[\tilde{\delta}_q\right] - r_f \right)$$
+In the limiting case of $q = 1$, where the single risk factor $\tilde{F}_1$ is the market, the APT model reduces to the CAPM:
+$$\Exp_{\Prob}\left[\tilde{r}_j\right] = r_f + \beta_{j} \left( \Exp_{\Prob}\left[\tilde{r}_m\right] - r_f \right)$$
+
+\section{Digression on Probability and Expectation}
+
+\subsection{Expectation under different measures}
+Consider a roll of a fair die. Look at the number on the upper face, denoted as the random variable $X$, and find its expectation. The probability distribution is
+$$\Distrib_{\Prob}(X) = \begin{pmatrix}
+1 & 2 & 3 & 4 & 5 & 6 \\
+\nicefrac{1}{6} & \nicefrac{1}{6} & \nicefrac{1}{6} & \nicefrac{1}{6} & \nicefrac{1}{6} & \nicefrac{1}{6} 
+\end{pmatrix} 
+\quad \text{which gives} \quad 
+\Exp_{\Prob}[X] = \frac{1 + \ldots + 6}{6} = 3.5$$
+Now let $X$ be even, and $A$ be the set of events that result in an even number $X$. We denote the conditional probability as $\Prob_A$.
+$$\Distrib_{\Prob_A}(X) = \begin{pmatrix}
+1 & 2 & 3 & 4 & 5 & 6 \\
+0 & \nicefrac{1}{3} & 0 & \nicefrac{1}{3} & 0 & \nicefrac{1}{3}\end{pmatrix} 
+\quad \text{which gives} \quad 
+\Exp_{\Prob_A}[X] = \frac{2 + 4 + 6}{3} = 4$$
+This demonstrates that $\Prob$ and $\Prob_A$ are different, and that in most cases $\Exp_{\Prob}$ != $\Exp_{\Prob_A}$. More generally, for two different probability measures $\Prob_1$ and $\Prob_2$, the properties of a stochastic process $S(t)$ under $\Prob_1$ will differ from those under $\Prob_2$.
+
+\subsection{Value of risky future cash flows}
+Assume you are given \pounds1 million to invest for one year, and this \pounds1M represents the collective life savings of your grandparents. Assume the risk-free rate for one year is 10\%. Would you accept an investment proposal for \pounds1M that returned \pounds2.2M with probability $\nicefrac{1}{2}$ and returned nothing with probability $\nicefrac{1}{2}$?
+
+\section{Pricing a European Option as an Expectation\\Introduction of the Risk-Adjusted Probability Measure}
+
+\subsection{Assumptions of the Black-Scholes Model}
+\begin{enumerate}
+\item There exist two instruments traded in continuous time with no restrictions as to quantity or sign of position: one risky asset $S$ (e.g. a stock), and one riskless asset $M$ growing at the short-term rate $r(t)$ (e.g. a money-market account). 
+\item The economy has the following simplifying properties:
+\begin{enumerate}
+\item no transaction cost on $S$ or $M$ (relaxed in 1987 by Leland and later in 1995 by Avallaneda)
+\item no dividend payment on $S$ (relaxed by Merton in 1973)
+\item in the original paper, "interest rates are constant." In actuality, only short-term interest rates need to be assumed to be constant. (relaxed by Geman in 1988)
+\end{enumerate}
+\item The no-arbitrage property holds.
+\item $S$ evolves according to $$\frac{dS_t}{S_t} = \mu\,dt + \sigma dW_t$$ where $dW_t = W_{t + d t} - W_t$ and $W_t$ is a $\Prob$-Brownian motion.
+\end{enumerate}
+
+\subsection{Basic Results}
+
+Before introducing a derivative into the setting, we should examine some of the basic properties. Observing that there is one source of risk, $S$ (or even more closely, $W$), and there is no arbitrage. We can invoke the 1976 Ross APT paper to get break down expected return on the risky asset $S$ given $\Filtr_t$, the information available at time $t$:
+\begin{align*}
+\Exp_{\Prob}\left[\frac{dS_t}{S_t} \middle| \Filtr_t \right]& = \Exp_{\Prob}\left[\mu\,dt + \sigma dW_t \middle| \Filtr_t \right] \\
+& = \mu\,dt + \sigma \Exp_{\Prob}\left[dW_t \middle| \Filtr_t \right] \\
+& = \mu\,dt + \sigma \Exp_{\Prob}\left[dW_t \right] \\
+& = \mu\,dt
+\end{align*}
+Annualised, this becomes $\frac{1}{d t}(\mu d t) = \mu$. Now by Ross's result, this return must be composed of the risk-free rate plus one risk premium (since there is only one risk source). Denote this premium as $a$, and noting that $\sigma > 0$:
+$$ \mu = r + a = r + \sigma \frac{a}{\sigma} = r + \sigma \lambda$$
+where $\lambda = \frac{a}{\sigma}$ is the market price of equity risk, the reward above the risk-free rate to convince risk-averse investors to trade $S$ as well as $M$. \\
+
+We can also decide that $a$ (and therefore $\lambda$) may be changing over time; that is, investors are risk averse and demand different risk premia over time (or stochastically). \\
+
+We now substitute $r + \sigma \lambda$ for $\mu$ in the equation for $S_t$ to get
+$$\frac{d S_t}{S_t} = r d t + \sigma \left( \lambda\,dt+ dW_t \right)$$
+and construct a new process $\hat{W}_t$, with $d \hat{W}_t = \lambda\,dt + dW_t$ and $\hat{W}_0 = 0$. \\
+
+Note that $\Exp_{\Prob}[d \hat{W}_t] \neq 0$, and so $\hat{W}_t$ is not a Brownian motion under $\Prob$. However, by the Cameron-Martin-Girsanov (often just called Girsanov) theorem, under certain conditions that prevail here, we know there exists a probability measure $\Que$ on $(\Omega, \Sigma)$ equivalent to $\Prob$ such that $\hat{W}_t$ is a Brownian motion under $\Que$. The theorem also gives us $\frac{d \Que}{d \Prob}$, the Radon-Nikodym derivative of $\Que$ with respect to $\Prob$. \\
+
+So under $\Que$, $\frac{d S_t}{S_t} = r\,dt + \sigma d\,\hat{W}_t$ where $\hat{W}_t$ is a $\Que$-Brownian motion. This can be solved for $t^\prime > t$ to get 
+$$ S(t^\prime) = S(t) \exp \left\{ \left(r - \frac{\sigma^2}{2}\right)(t^\prime - t) + \sigma \hat{W}(t^\prime - t) \right\} $$
+This can be written as 
+$$ S(t^\prime)e^{-r t^\prime} = S(t) \exp \left\{-rt -\frac{\sigma^2}{2}(t^\prime - t) + \sigma \hat{W}(t^\prime - t) \right\} $$
+allowing us to take
+\begin{align*}
+\Exp_{\Que}\left[S(t^\prime)e^{-r t^\prime}\middle| \Filtr_t \right]
+& = \Exp_{\Que}\left[S(t) \exp \left\{-rt -\frac{\sigma^2}{2}(t^\prime - t) + \sigma \hat{W}(t^\prime - t) \right\}\middle| \Filtr_t \right] \\
+& = S(t)e^{-rt}\Exp_{\Que}\left[ \exp \left\{-\frac{\sigma^2}{2}(t^\prime - t) + \sigma \hat{W}(t^\prime - t) \right\}\middle| \Filtr_t \right]
+\end{align*}
+Now
+\begin{align*}
+\text{if} \quad U &= \sigma \hat{W}(t^\prime - t) \quad \text{then}& \quad U &\thicksim N\left(0, \sigma^2(t^\prime - t)\right) \\
+\text{if} \quad U &= -\frac{\sigma^2}{2}(t^\prime - t) + \sigma \hat{W}(t^\prime - t) \quad \text{then}& \quad U &\thicksim N\left(-\frac{\sigma^2}{2}(t^\prime - t), \sigma^2(t^\prime - t)\right)
+\end{align*}
+So we compute
+$$ \Exp_{\Que}[\exp U] = \exp \left\{ -\frac{\sigma^2}{2}(t^\prime - t) + \frac{1}{2} \sigma^2(t^\prime - t) \right\} = \exp\{0\} = 1$$
+And we get the result that 
+$$ \Exp_{\Que}\left[S(t^\prime)e^{-r t^\prime}\middle| \Filtr_t \right]
+= S(t)e^{-r t}$$
+i.e. $S(t)e^{-r t}$ is a martingale under $\Que$. \\
+
+Let us normalise our money-market account value to $M(0) = 1$, growing constantly at rate $r$ so that $M(t) = e^{rt}$. Then the value of the stock in the money-market numeraire, $\frac{S(t)}{M(t)} = S(t)e^{-rt}$, is a $\Que$-martingale; on average under $Q$, $S(t)$ grows at the rate $r$. \\
+
+\begin{remark}
+This is where the unfortunate terminology of risk-neutrality is often seen. We are still risk-averse, however $\Que$ contains $\lambda$ and therefore it is better to say that $\Que$ is {\bf risk-adjusted}.
+\end{remark}
+
+Note also that $\frac{M(t)}{M(t)} = 1$; since constants are martingales under any probability measure, $\frac{M(t)}{M(t)}$ is also a $\Que$-martingale.
+
+\section{Replication}
+
+We have an economy with two continuously traded assets $S$ and $M$, the probability space $\Omega$ (which can be finite, as in the Cox-Rubenstein binomial model, or infinite, in continuous time). If we assert the no-arbitrage condition on our assets, we can use the Girsanov theorem to obtain the result that $\frac{S_t}{M_t}$ (which grows in expectation at rate $r$) and $\frac{M_t}{M_t}$ (constant at 1) are both martingales under $\Que$. \\
+
+Now if we introduce another instrument $C$ that can be replicated by $S$ and $M$, then by linearity of expectation $\frac{C_t}{S_t}$ will also be a martingale under $\Que$. \\
+
+If we have the following:
+\begin{enumerate}
+\item trading in continuous time
+\item 2 non-redundant primitive securities (primitive in the sense that no model determines their price, they are valued continuously by the market)
+\item one source of risk $W$
+\end{enumerate}
+then we have a complete market, meaning that any instrument paying cash at time $T$ can be replicated by a portfolio of the primitive securities $S$ and $M$. Then the replicated instrument $C$ has a price at time $t$, which is the price of the replicating portfolio at time $t$, and by the no-arbitrage condition that price is unique.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}
