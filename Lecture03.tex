@@ -10,7 +10,7 @@
 {\small \maketitle}
 
 \section{Recapitulation}
-For a given stock $S$, the first derivatives that we can build are the forward contracts with expiry $T^\prime$, whose price we denote $f^{T^\prime}(t)$, and the future contracts with expiry $T^\prime$, whose price we denote $F^{T^\prime}(t)$. Due to the absence of arbitrage, we can assert the relation of their price at maturity $f^{T^\prime}(T^\prime) = S(T^\prime) = F^{T^\prime}(T^\prime)$. The primary differences are: \\
+For a given stock $S$, the first derivatives that we can build are the forward contracts with expiry $T^\prime$, whose price we denote $f^{T^\prime}(t)$, and the future contracts with expiry $T^\prime$, whose price we denote $F^{T^\prime}(t)$. Due to the absence of arbitrage, we can assert the relation of their price at maturity $f^{t=T^\prime}(T^\prime) = S(T^\prime) = F^{t=T^\prime}(T^\prime)$. The primary differences are: \\
 
 \begin{tabular}{l | l}
 Forwards & Futures \\
@@ -42,7 +42,7 @@ Let us consider the assets and situations we have seen to date:
 \item If $S$ is a stock, then changes in the stock price are inversely correlated to the interest rate (when interest rates decrease, stock prices increase), so $F^{T^\prime}(t) \neq f^{T^\prime}(t)$.
 
 \begin{remark}
-In banks, there is frequently a desk called "Delta One" (i.e. all derivatives must have $\Delta=1$) that deals with this: they trade forwards and futures knowing their price differes and trying to identify mispricings. The \$6 billion loss incurred by Jérôme Kerviel at Société Générale occured while he was working on the Delta One desk. Theoretically he was hedged, long $F^{T^\prime}$ and short $f^{T^\prime}$, but in reality he did not have a position in $f^{T^\prime}$.
+In banks, there is frequently a desk called "Delta One" (i.e. all derivatives must have $\Delta=1$) that deals with this: they trade forwards and futures knowing their price differs and trying to identify mispricings. The \$6 billion loss incurred by Jérôme Kerviel at Société Générale occured while he was working on the Delta One desk. Theoretically he was hedged, long $F^{T^\prime}$ and short $f^{T^\prime}$, but in reality he did not have a position in $f^{T^\prime}$.
 \end{remark}
 
 \item If $S$ is a currency, then as exchange rate differentials are highly correlated to interest rate differentials, $\Corr(S, r) \neq 0$, so $F^{T^\prime}(t) \neq f^{T^\prime}(t)$.
