@@ -123,7 +123,7 @@ For the general case $r(t)$ is not constant: it evolves randomly over time. The 
 $$M(t) = M(0) \exp \left\{ \int_0^t r(s) \dif s\right\} \qquad \text{or} \qquad M(t) = \exp \left\{ \int_0^t r(s) \dif s\right\}$$
 if $M(0) = 1$. At time 0, this quantity is unknown, and so the money market account is no longer risk-free. Hence, results need to be adjusted. \\
 
-Let $\widetilde{\Phi}_T$ denote a contingent claim paying a unique cashflow at date $T$ that is {\em attainable}, that is, it has at least one replicating portfolio build from primitive securities. We will show that 
+Let $\widetilde{\Phi}_T$ denote a contingent claim paying a unique cashflow at date $T$ that is {\em attainable}, that is, it has at least one replicating portfolio built from primitive securities. We will show that 
 $$ V_t(\widetilde{\Phi}_T) = \Exp_{\Qmeas} \left[ \widetilde{\Phi}_T e^{-\int_t^T r(s) ds} \middle/ \Filtr_t \right]$$\\
 
 Consider two particular cases:
@@ -181,7 +181,7 @@ so
 $$ \frac{S(t)}{B^T(t)} = \Exp_{\Qmeas_T} \left[ S(T) \middle/ \Filtr_t \right] = \Exp_{\Qmeas_T} \left[ \frac{S(T)}{1} \middle/ \Filtr_t \right] = \Exp_{\Qmeas_T} \left[ \frac{S(T)}{B_T(T)} \middle/ \Filtr_t \right] $$
 \begin{remark}[Geman 1989]
 We recall that $\frac {S(t)}{B^T(t)}$ is the $T$-forward price of $S$ at time $t$, $f^T(t)$.
-Thus 
+Thus  
 $$ f^T(t) = \Exp_{\Qmeas_T} \left[ f_T(T) \middle/ \Filtr_t \right]$$
 That is, the $T$-forward price of $S$ is a $\Qmeas_T$-martingale, and we call $\Qmeas_T$ the {\em $T$-forward measure} .
 \end{remark}
