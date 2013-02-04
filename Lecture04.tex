@@ -20,11 +20,11 @@ $$B^T(t) = \Exp_{\Qmeas} \left[ e^{-\int_t^T r(s) ds} \middle/ \Filtr_t \right]$
 So far we have only worked with $r(t)$, the short term interest rate paid over the short interval $t$ and $t+\Delta t$. We now introduce the spot rate $R(t, \theta)$, the interest rate observed at time $t$ for lending over the period $(t, t+\theta)$, defined as follows:
 $$B^T(t) \equiv e^{-(T-t)R(t,T-t)}$$
 By observing a collection of zero-coupon bonds on the market, we are able to infer the function of spot rates $R(t, \theta)$ over $\theta$, which we call the {\em yield curve}.
-We also observe that the short term rate can be defined as the limit of the spot rate its maturity $\theta$ approaches zero:
-$$r(t) = \lim_{\theta \rightarrow 0} $$
+We also observe that the instantaneous short term rate can be defined as the limit of the spot rate as its maturity $\theta$ approaches zero:
+$$r(t) = \lim_{\theta \rightarrow 0} R(t, \theta)$$
 Finally, we note that the category of instruments where $\widetilde{\Phi}_T$ is constant are what we call fixed-coupon bonds. We consider them to be default-free (i.e., no credit risk), and of certain payoff. Since there are no random cash flows, they are easy to price, and the market price is the no-arbitrage price. \\
 
-The world of interest-rate-linked securities is often referred to as the {\em fixed income} sector. It includes other instruments such as floating rate notes (notes with variable payments), caplets (options on interest rates), caps (collections of caplets), options on bonds. When pricing such instruments, whose cash flows depend on the evolution of interest rates, we cannot assume constant interest rates. \\
+The world of interest-rate-linked securities is often referred to as the {\em fixed income} market. It includes other instruments such as floating rate notes (notes with variable payments), caplets (options on interest rates), caps (collections of caplets), options on bonds. When pricing such instruments, whose cash flows depend on the evolution of interest rates, we cannot assume constant interest rates. \\
 
 \begin{remark}
 By its nature, the problem of interest rates is much more complicated than equities. When pricing an option on a stock, the only thing I am interested in is the single price process $\left\{S(t)\right\}_{t \geq 0}$. For Bachelier, this was arithmetic Brownian motion; for Black and Scholes, it was geometric Brownian motion; it can also be a pure-jump Lévy process, as in (Geman 2002).\\ 
@@ -54,7 +54,7 @@ V_t(\widetilde{\Phi}_T) &= B^T(t) \Exp_{\Qmeas_T} \left[ \widetilde{\Phi}_T \mid
 \end{align*}
 Note that we made absolutely no assumptions on what we call the interest rate model. \\
 
-Now let us return to the basic economy with primitive securities or stocks $\widetilde{S}_j(t)$. Let $\widetilde{\Phi}_T$ be the random value today of the  the stock $\widetilde{S}_j$ time $T$. If the market is indeed arbitrage free, then the value today of the future cash flow $V_t(\widetilde{\Phi}_T)$ is equal the price of the stock today $\widetilde{S}_j(t)$.
+Now let us return to the basic economy with primitive securities (stocks and bonds) denoted $\widetilde{S}_j(t)$ where $s=0,\dots,n$. Let $\widetilde{\Phi}_T$ be the random value today of the stock $\widetilde{S}_j$ time $T$. If the market is indeed arbitrage free, then the value today of the future cash flow $V_t(\widetilde{\Phi}_T)$ is equal the price of the stock today $\widetilde{S}_j(t)$.
 $$V_t(\widetilde{\Phi}_T) = \widetilde{S}_j(t) = B^T(t) \Exp_{\Qmeas_T} \left[ \widetilde{S}_j(T) \middle/ \Filtr_t \right] = B^T(t) \Exp_{\Qmeas_T} \left[ \frac{\widetilde{S}_j(T)}{B^T(T)} \middle/ \Filtr_t \right]$$
 since $B^T(T) = 1$. This implies that:
 $$\frac {\widetilde{S}_j(t)}{B^T(t)} = \Exp_{\Qmeas_T} \left[ \frac{\widetilde{S}_j(T)}{B^T(T)} \middle/ \Filtr_t \right]$$
@@ -72,7 +72,7 @@ Let us restate the First Fundamental Theorem of Asset Pricing under constant int
 
 Lastly, we recognize that the first case, the discounted price $S_j(t)e^{-rt}$ is just $\frac{S_j(t)}{M(t)}$, the price in the numeraire $M$, and in the second, the $T$-forward price $\frac{S_j(t)}{B^T(t)}$ is the price in the numeraire $B^T$. This leads to the result:
 
-\begin{theorem}[Extended FFTAP, Geman-Elkaroui-Rochet 1995]
+\begin{theorem}[Extended FFTAP, Geman-El Karoui-Rochet 1995]
 Under no arbitrage, for any almost surely strictly positive numeraire $N$, there exists a probability measure $\Qmeas_N$ such that $\frac{S_j(t)}{N(t)}$, the prices of all primitive securities in the numeraire, are $\Qmeas_N$-martingales.
 \end{theorem}
 
@@ -85,7 +85,7 @@ We can rephrase the assumptions of Black-Scholes in this case:
 \begin{enumerate}
 \item[A0.] Two primitive securities traded in continuous time, $S$ and $B^T$
 \item[A1.] $S$ pays no dividend
-\item[A2.] Interest rates folow a stochastic process
+\item[A2.] Interest rates follow a stochastic process
 \item[A3.] The no-arbitrage property holds
 \item[A4.] The $T$-forward price of $S$ (denoted $f_S^T$) is a geometric Brownian motion under $\Qmeas_T$, i.e.:
 $$ \frac{\dif f_S^T(t)}{f_S^T(t)} = a \dif t + \sigma_{f_S^T} \dif \widehat{W}^{\Qmeas_T}(t)$$
@@ -96,14 +96,14 @@ in which case we end up with the usual result
 $$ C(t) = S(t) \Phi(d_1) - K B^T(t) \Phi(d_2)$$
 where
 $$d_1 = \frac{\ln \left( \frac{S(t)}{K B^T(t)}\right) + \frac{1}{2}\sigma_{f_S^T}^2(T-t)}{\sigma_{f_S^T} \sqrt{T-t}} \qquad \text{and} \qquad d_2 = \frac{\ln \left( \frac{S(t)}{K B^T(t)}\right) - \frac{1}{2}\sigma_{f_S^T}^2(T-t)}{\sigma_{f_S^T} \sqrt{T-t}}$$
-The only two differences between this dn the classical are that the discount factor is now $B^T(t)$ and that the volatility $\sigma_{f_S^T}$ is the volatility of the forward price. 
+The differences between this and the classical Black-Scholes model are that the discount factor is now $B^T(t)$ and that the volatility $\sigma_{f_S^T}$ is the volatility of the forward price. 
 
-\section{Market Model for Valuation of Caplets (BGM 1997)}
+\section{Market Model for Valuation of Caplets}
 
-Imagine a company founded at time $t$ in some (non-financial) industry. Assume that, given the growth plan, at time $t + 1$ year the company will need capital to grow and will need to borrow \$1 million for three years. This money will be borrowed for six months at a time, so the relevant interest rate is the spot rate $R(t+1, \nicefrac{1}{2})$ (where $t$ and $\theta$ are given in years).  The viability of the growth plan relies on current interest rates, so the company will need to consider the possibility that interest rates may rise in the future. In short, the company needs to hedge interest rates. \\
+Imagine a company founded at time $t$ in some (non-financial) industry. Assume that, given the growth plan, at time $t + 1$ year the company will need capital to grow and will need to borrow \$1 million for three years. This money will be borrowed for six months at a time, so the relevant interest rate is the spot rate $R(t+1, \nicefrac{1}{2})$ (where the parameters are given in years).  The viability of the growth plan relies on current interest rates, so the company will need to consider the possibility that interest rates may rise in the future. In short, the company needs to hedge interest rates. \\
 
-Let us assume further that the company's business plan is viable so long as $R < 5\%$. The company will approach a bank and purchase an OTC instrument called a {\em specific caplet}. Since we are borrowing \$1 million for 3 years, we approximate by purchasing \$3 million notional of protection, and will receive the payoff:
-$$ C^{caplet} = \text{\$3M} \cdot \max\left(0, \widetilde{R}(t+1, \nicefrac{1}{2}) - 5\% \right)$$
+Let us assume further that the company's business plan is viable so long as $R < 5\%$. The company will approach a bank and purchase an OTC instrument called a {\em specific caplet}. Since we are borrowing \$1 million, we purchase \$1 million notional of protection, and will receive the payoff:
+$$ C^{caplet} = \text{\$1M} \cdot \max\left(0, \widetilde{R}(t+1, \nicefrac{1}{2}) - 5\% \right)$$
 The caplet puts a ceiling on the cost of borrowing and is effectively a call option on interest rates at a single time. A cap is composed of many such caplets over the period of time.\\
 
 \begin{definition}[forward interest rate] In continuous time, the $T$-forward interest rate $f(t, T, \theta)$ is defined from the spot rate $R(t, \theta)$ by
@@ -159,11 +159,11 @@ where $r(t)$ is now a state variable. Because of the depth and liquidity of the 
 
 Now we return to constant $r$ and consider the possibility of $\sigma(t)$, introducing stochastic volatility:
 $$C(t, S(t), \sigma(t); r; k, T)$$
-The problem of completenes depends on the type of $S$ and the moment of analysis. In 1983, if $S$ were the S\&P 500, there were no liquid and continuously traded variance swaps, VIX futures, or similar instruments, so we do not have market completeness: we have a source of risk for which we have no hedgeing instruments. Today, we have such instruments on the S\&P 500, but, for example, not on single name stocks. 
+The problem of completeness depends on the type of $S$ and the moment of analysis. In 1983, if $S$ were the S\&P 500, there were no liquid and continuously traded variance swaps, VIX futures, or similar instruments, so we do not have market completeness: we have a source of risk for which we have no hedgeing instruments. Today, we have such instruments on the S\&P 500, but, for example, not on single name stocks. 
 
 \section{Empirical Observations since 1973}
 
-In 1973, the Black-Scholes formula was published, and was beloved of market participants and academics alike. It was observed that $\text{vega}_\text{call} = \pd{C}{\sigma} > 0$. The intuition for this is that as $\sigma$ increases, the Brownian motion excursions increase the upside without bound, whereas the downside is limited. We conclude that $C$ is strictly monotonic and increasing in $\sigma$. We therefore should be able to invert the formula to infer $\sigma$ from the market price:
+In 1973, the Black-Scholes formula was published, and eagerly adopted by market participants and academics alike. It was observed that $\text{vega}_\text{call} = \pd{C}{\sigma} > 0$. The intuition for this is that as $\sigma$ increases, the Brownian motion excursions increase the upside without bound, whereas the downside is limited. We conclude that $C$ is strictly monotonic and increasing in $\sigma$. We therefore should be able to invert the formula to infer $\sigma$ from the market price:
 $$C^\text{market}(t) \underset{\text{BS}^{-1}}\longmapsto \sigma_\text{implied}$$
 
 \subsection{Early observations}
@@ -180,7 +180,7 @@ In 1974, a graph of the implied volatility against the option strike level aroun
 
 According to Merton, the graph became flat because the pricing formula became a self-fulfilling prophecy. \\
 
-\begin{remark}[put-call parity] Given a put and call option on the same underlying with the assumptions of the Black-Scholes model (except for the dynamics of $S$), then we can relate the price of put and call options by
+\begin{remark}[put-call parity] Given a put and call option on the same underlying with the assumptions  (except A4) of the Black-Scholes model, then we can relate the price of put and call options by
 $$S(t) + P(t) = C(t) + Ke^{-r(T-t)}$$
 \end{remark}
 In this model, $\sigma$ is the same for put and call options. However, practitioners were already aware that the $\sigma$ for put and call options do not convey the same information. \\
@@ -223,8 +223,8 @@ This shape became known as a {\em smile}. There was no theoretical basis for thi
 
 By 1984, it was widely recognized that the divergence of the model with emprical observation needed to be addressed. In 1987, several papers (Wiggins, Johnson and Shanno, Hull and White) introduced stochastic volatility into option pricing. The Hull and White model was formulated as follows:
 \begin{align*}
-\text{under} & \Pmeas & \frac{\dif S(t)}{S(t)} &= \mu \dif t + \sigma(t) \dif W^1(t) \\
-& \text{and} & \frac{\dif \sigma(t)}{\sigma(t)} &= a \dif t + \xi \dif W^2(t)
+\text{under}& \Pmeas & \frac{\dif S(t)}{S(t)} &= \mu \dif t + \sigma(t) \dif W^1(t) \\
+ \text{and}& & \frac{\dif \sigma(t)}{\sigma(t)} &= a \dif t + \xi \dif W^2(t)
 \end{align*}
 Where $\dif W^1, \dif W^2$ are correlated: $\dif W^1(t) \dif W^2(t) = \rho \dif t$. \\
 
